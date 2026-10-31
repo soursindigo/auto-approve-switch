@@ -78,6 +78,7 @@
 import { appendFileSync, mkdirSync, statSync, truncateSync } from 'node:fs'
 import { homedir, tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import type { Context } from '@deepseek-ai/cordis'
 
 /** Stable Cordis plugin name; also the prefix of every log line. */
@@ -266,7 +267,11 @@ export function onAutoApproveChange(listener: ChangeListener): () => void {
  */
 // One level above this compiled file (`lib/`), i.e. the package root: a log must
 // never be written INTO the published `lib/` directory.
-const PACKAGE_ROOT = dirname(dirname(new URL(import.meta.url).pathname))
+//
+// `fileURLToPath` rather than `new URL(...).pathname`: on Windows the pathname
+// form is `/C:/Users/...`, and `dirname` then produces `/C:` — a directory that
+// does not exist, so every log write would fail there.
+const PACKAGE_ROOT = dirname(dirname(fileURLToPath(import.meta.url)))
 
 /** Primary log location. */
 export const LOG_FILE = join(

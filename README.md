@@ -471,3 +471,23 @@ npm pack --dry-run        # 应只含 lib/、cordis.patch.yml、package.json、R
 npm run build && npm test # 40 项测试
 ```
 
+---
+
+## 平台支持
+
+**不是 Apple Silicon 专属。** 本插件是纯 JavaScript/TypeScript，**零运行时依赖、无原生模块**
+（没有 `.node` 二进制，也没有 `dependencies`），因此不受 CPU 架构影响：
+
+| 平台 | 支持情况 | 说明 |
+|---|---|---|
+| macOS（Intel / Apple Silicon） | ✅ | 开发与验证环境（arm64） |
+| Windows | ✅ | 快捷键自动用 `Ctrl+Alt+A`；无平台专属代码 |
+| Linux | ✅ | 同上 |
+
+只要 DSH 本身能在该系统上运行，插件即可运行。架构（x64 / arm64）无关，因为没有编译产物。
+
+**唯一与平台相关的地方**：
+- 快捷键：macOS 用 `Command+Option+A`，Windows/Linux 用 `Ctrl+Alt+A`（由 DSH 的快捷键服务按设备映射 `primary` 修饰键）。
+- `scripts/capture-host-log.sh` 是**仅供 macOS 的调试脚本**（写死了 App 路径），与插件运行无关，可忽略。
+
+**已验证范围**：macOS arm64 + DSH 0.2.1-rc.5。其他平台尚未实机验证——如有问题欢迎提 issue。
