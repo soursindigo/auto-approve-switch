@@ -1,0 +1,21 @@
+# auto-approve-switch — DSH bundle patch (one profile layer).
+#
+# `dsh plugin --profile <name> add <this package>` installs it, appends the
+# package to `dsh.profile.bundles` in the profile's package.json, and the
+# launcher applies THIS file as one layer after the base and app bundles.
+#
+# It inserts exactly one Loader row: the plugin's host half. The row name is the
+# BARE PACKAGE NAME on purpose — the Loader resolves it from the profile (where
+# this package is installed), so the same file works on every machine. An
+# absolute `file://` URL would pin one person's checkout path.
+#
+# The browser half is not listed: a package declaring `dsh.client.platform:
+# "web"` is turned into a client bundle automatically by dsh-client-modules.
+#
+# Disable without uninstalling, from the profile's own cordis.patch.yml:
+#
+#   - id: auto-approve-switch
+#     disabled: true
+- insert:
+    - id: auto-approve-switch
+      name: 'auto-approve-switch'

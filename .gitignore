@@ -1,0 +1,12 @@
+# Runtime diagnostics written by the plugin itself (never source).
+auto-approve-switch.log
+host-launch.log
+.DS_Store
+
+# Dependencies
+node_modules/
+
+# NOTE: `lib/` is intentionally NOT ignored.
+# `dsh plugin add <git-url>` installs the repository as-is; without the built
+# artifacts the Loader row would fail to resolve. Keep `npm run build` output
+# committed so a git install works without a build step.
